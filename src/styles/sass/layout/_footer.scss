@@ -1,0 +1,53 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the footer of the site/application.
+// -----------------------------------------------------------------------------
+
+.footer {
+    @include background-cover;
+  
+    &__content {
+      h3 {
+        @extend %mb-10;
+      }
+  
+      p {
+        @include font-size(18px);
+        color: $white-color;
+        @extend %mb-20;
+      }
+    }
+  
+    &__copyright {
+      border-top: 1px solid rgba($white-color, $alpha: .10);
+    }
+  
+    .social {
+      &__link {
+        @include box(45px);
+        @include font-size(18px);
+      }
+    }
+  }
+  
+  // ✅ Slogan los gedefinieerd — buiten `.footer`
+  .footer__slogan {
+    font-size: 16px;
+    
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 20px;
+  
+    .gradient-text {
+      background: linear-gradient(135deg, #ff66c4, #ff9ce3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+      text-shadow: 0 0 8px rgba(255, 102, 196, 0.4);
+      transition: all 0.3s ease;
+    }
+  
+    .gradient-text:hover {
+      text-shadow: 0 0 12px rgba(255, 102, 196, 0.8);
+    }
+  }
+  
