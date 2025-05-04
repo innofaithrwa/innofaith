@@ -5,10 +5,10 @@ import ApplyToLaunch from "@/components/common/ApplyToLaunch";
 const teamMembers = [
   { name: "Stefan", role: "Developer", img: "/images/team/dev.png" },
   { name: "Harry", role: "Finance", img: "/images/team/finance.png" },
-  { name: "Alleja", role: "Manager Operations", img: "/images/team/ops.png" },
-  { name: "Marius", role: "Strategic & Marketing", img: "/images/team/strategy.png" },
-  { name: "Robin", role: "Media Design", img: "/images/team/design.png" },
-  { name: "Alexandre", role: "Marketing Strategie", img: "/images/team/marketing.png" }
+  { name: "Alleja", role: "Operations Manager", img: "/images/team/ops.png" },
+  { name: "Marius", role: "Strategy & Marketing", img: "/images/team/strategy.png" },
+  { name: "Robin", role: "Media & Design", img: "/images/team/design.png" },
+  { name: "Alexandre", role: "Marketing Strategy", img: "/images/team/marketing.png" }
 ];
 
 const Team = () => {
