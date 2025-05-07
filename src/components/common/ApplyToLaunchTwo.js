@@ -23,7 +23,7 @@ function ApplyToLaunchTwo() {
               subTitle="Ready to invest?"
               title="Buy INF Token Today"
             />
-            <Link href="/apply-project" className="default-btn mt-3">
+            <Link href="/buy-token" className="default-btn mt-3">
               Buy INF Token
             </Link>
           </div>
