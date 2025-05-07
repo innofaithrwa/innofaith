@@ -106,7 +106,8 @@ export default function Header() {
                 <ul className="submenu">
                   <li><Link href="/projectdetails">Project Details</Link></li>
                   <li><Link href="/tokenomics">Tokenomics</Link></li>
-                  <li><Link href="/apply-project">Apply for Project</Link></li>
+                  <li><Link href="/apply-project">Buy INF Token</Link></li>
+
                   
                 </ul>
               </li>
