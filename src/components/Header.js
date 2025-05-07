@@ -57,7 +57,7 @@ export default function Header() {
           animation: "scroll-left 15s linear infinite"
         }}>
           {mounted && (presaleStarted
-            ? "✅ Private Pre-Sale Started!"
+            ? "Private Pre-Sale Started!"
             : `Private Pre-Sale Starts In: ${formatTime(timeLeft)}`)}
         </div>
       </div>
