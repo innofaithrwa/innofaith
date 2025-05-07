@@ -5,6 +5,7 @@ import Banner from "@/components/modules/home2/Banner";
 import ApplyToLaunchTwo from "@/components/common/ApplyToLaunchTwo";
 import { fetchData } from "@/apiConfig";
 import TokenomicsBlock from "@/components/modules/home2/TokenomicsBlock";
+import LiveMap from "@/components/home/LiveMap";
 
 
 
@@ -51,6 +52,8 @@ const Home2 = () => {
     <>
       <Banner />
       <CounterTwo />
+      <LiveMap />
+
       <TokenomicsBlock />
       
       <section className="padding-top padding-bottom" style={{ backgroundColor: "#0c111b" }}>

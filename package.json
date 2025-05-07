@@ -23,6 +23,7 @@
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "express": "^5.1.0",
+    "framer-motion": "^12.10.0",
     "next": "13.3.0",
     "react": "18.2.0",
     "react-bootstrap": "^2.7.2",
@@ -31,10 +32,12 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-countup": "^6.4.2",
     "react-dom": "18.2.0",
+    "react-globe.gl": "^2.33.2",
     "react-hook-form": "^7.43.8",
     "react-scroll-to-top": "^3.0.0",
     "sass-loader": "^13.2.2",
-    "swiper": "^9.1.0"
+    "swiper": "^9.1.0",
+    "three": "^0.176.0"
   },
   "devDependencies": {
     "null-loader": "^4.0.1",
