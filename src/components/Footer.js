@@ -1,10 +1,6 @@
 import {
-  faDiscord,
-  faTwitch,
   faInstagram,
   faTwitter,
-  faFacebookF,
-  faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -31,40 +27,30 @@ function Footer() {
               </Link>
 
               <p className="footer__slogan mb-4">
-  <span className="gradient-text">We make mining accessible for everyone.</span>
-</p>
-
-
+                <span className="gradient-text">
+                  We make mining accessible for everyone.
+                </span>
+              </p>
 
               <ul className="social justify-content-center">
                 <li className="social__item">
-                  <Link href="#" className="social__link">
+                  <Link
+                    href="https://twitter.com/innofaithrwa"
+                    className="social__link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <FontAwesomeIcon icon={faTwitter} />
                   </Link>
                 </li>
                 <li className="social__item">
-                  <Link href="#" className="social__link">
-                    <FontAwesomeIcon icon={faDiscord} />
-                  </Link>
-                </li>
-                <li className="social__item">
-                  <Link href="#" className="social__link">
-                    <FontAwesomeIcon icon={faTwitch} />
-                  </Link>
-                </li>
-                <li className="social__item">
-                  <Link href="#" className="social__link">
+                  <Link
+                    href="https://www.instagram.com/innofaithrwa"
+                    className="social__link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <FontAwesomeIcon icon={faInstagram} />
-                  </Link>
-                </li>
-                <li className="social__item">
-                  <Link href="#" className="social__link">
-                    <FontAwesomeIcon icon={faLinkedinIn} />
-                  </Link>
-                </li>
-                <li className="social__item">
-                  <Link href="#" className="social__link">
-                    <FontAwesomeIcon icon={faFacebookF} />
                   </Link>
                 </li>
               </ul>
