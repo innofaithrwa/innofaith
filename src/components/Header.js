@@ -40,37 +40,53 @@ export default function Header() {
   return (
     <>
       {/* Countdown Banner */}
-      <div style={{
-        backgroundColor: "#2e3f8c",
-        color: "#fff",
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-        padding: "6px 0",
-        fontWeight: "600",
-        fontSize: "15px",
-        borderBottom: "2px solid #4a5ed6",
-        position: "relative"
-      }}>
-        <div style={{
-          display: "inline-block",
-          paddingLeft: "100%",
-          animation: "scroll-left 15s linear infinite"
-        }}>
-          {mounted && (presaleStarted
-            ? "Private Pre-Sale Started!"
-            : `Private Pre-Sale Starts In: ${formatTime(timeLeft)}`)}
+      <div
+        style={{
+          background: "linear-gradient(90deg, #0c1f4a, #2e3f8c)",
+          color: "#fff",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          padding: "6px 0",
+          fontWeight: "600",
+          fontSize: "15px",
+          borderBottom: "2px solid #4a5ed6",
+          position: "relative",
+        }}
+      >
+        <div
+          style={{
+            display: "inline-block",
+            paddingLeft: "100%",
+            animation: "scroll-left 15s linear infinite",
+          }}
+        >
+          {mounted &&
+            (presaleStarted
+              ? "Pre-seed Started!"
+              : `Pre-seed Starts In: ${formatTime(timeLeft)}`)}
         </div>
       </div>
 
       <style jsx>{`
         @keyframes scroll-left {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-100%); }
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
         }
       `}</style>
 
-      <header className="header-section">
-        <div className="container py-3 d-flex flex-column flex-lg-row align-items-center justify-content-center">
+      {/* Header Section */}
+      <header
+        className="header-section"
+        style={{
+          backgroundColor: "#0b0f1c",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.4)",
+        }}
+      >
+        <div className="container py-3 d-flex flex-column flex-lg-row align-items-center justify-content-between">
           {/* Logo */}
           <div className="logo mb-3 mb-lg-0">
             <Link href="/">
@@ -95,29 +111,39 @@ export default function Header() {
           </div>
 
           {/* Navigation Menu */}
-          <nav className={`menu-wrapper ${menuOpen ? "active" : ""} w-100 d-lg-flex justify-content-center`}>
+          <nav
+            className={`menu-wrapper ${
+              menuOpen ? "active" : ""
+            } w-100 d-lg-flex justify-content-center`}
+          >
             <ul className="menu flex-column flex-lg-row align-items-center justify-content-center gap-4">
               <li>
-                <Link href="/">Home</Link>
+                <Link href="/" className="nav-link">
+                  Home
+                </Link>
               </li>
 
               <li className="menu-item-has-children">
-                <a href="#" onClick={toggleSubmenu}>Project</a>
+                <a href="#" className="nav-link" onClick={toggleSubmenu}>
+                  Project
+                </a>
                 <ul className="submenu">
                   <li><Link href="/projectdetails">Project Details</Link></li>
                   <li><Link href="/tokenomics">Tokenomics</Link></li>
                   <li><Link href="/buy-token">Buy INF Token</Link></li>
-
-                  
                 </ul>
               </li>
 
               <li>
-                <Link href="/farming">Farming</Link>
+                <Link href="/farming" className="nav-link">
+                  Details
+                </Link>
               </li>
 
               <li className="menu-item-has-children">
-                <a href="#" onClick={toggleSubmenu}>Pages</a>
+                <a href="#" className="nav-link" onClick={toggleSubmenu}>
+                  Pages
+                </a>
                 <ul className="submenu">
                   <li><Link href="/roadmap">Roadmap</Link></li>
                   <li><Link href="/faq">FAQ</Link></li>
@@ -126,12 +152,48 @@ export default function Header() {
               </li>
 
               <li>
-                <Link href="/contact">Contact</Link>
+                <Link href="/contact" className="nav-link">
+                  Contact
+                </Link>
+              </li>
+
+              {/* Highlight Buy Button */}
+              <li>
+                <Link
+                  href="/buy-token"
+                  className="px-4 py-2 rounded-full text-white font-semibold"
+                  style={{
+                    background: "linear-gradient(90deg, #3fa9f5, #4ac4ff)",
+                    boxShadow: "0 0 12px rgba(63, 169, 245, 0.6)",
+                  }}
+                >
+                  Buy INF
+                </Link>
               </li>
             </ul>
           </nav>
         </div>
       </header>
+
+      <style jsx global>{`
+        .nav-link {
+          color: #fff;
+          font-weight: 500;
+          transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+          color: #3fa9f5;
+          text-shadow: 0 0 6px rgba(63, 169, 245, 0.8);
+        }
+        .submenu {
+          background: #10172b;
+          border-radius: 8px;
+          padding: 10px;
+        }
+        .submenu li a:hover {
+          color: #4ac4ff;
+        }
+      `}</style>
     </>
   );
 }
@@ -145,8 +207,11 @@ function getRemainingTime() {
 
 function formatTime(ms) {
   const totalSeconds = Math.floor(ms / 1000);
-  const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-  const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-  const seconds = String(totalSeconds % 60).padStart(2, '0');
+  const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+  const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(
+    2,
+    "0"
+  );
+  const seconds = String(totalSeconds % 60).padStart(2, "0");
   return `${hours}:${minutes}:${seconds}`;
 }

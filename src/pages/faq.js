@@ -6,7 +6,7 @@ const faqData = [
   {
     category: "general",
     question: "What is INF Token?",
-    answer: "INF is a real-world asset (RWA) token backed by mining operations and Bitcoin Layer 1 technology through OP_NET.",
+    answer: "INF is a real-world asset (RWA) token backed by high-performance GPU infrastructure and Bitcoin Layer 1 technology through OP_NET.",
   },
   {
     category: "general",
@@ -25,13 +25,13 @@ const faqData = [
   },
   {
     category: "investor",
-    question: "How are farms connected to INF token rewards?",
-    answer: "INF mining rewards are directly linked to real-time hashrate output from our verified farm locations.",
+    question: "How are GPU farms connected to INF token rewards?",
+    answer: "INF rewards are directly linked to real-time compute power output from our verified GPU farm locations.",
   },
   {
     category: "investor",
-    question: "Where are the mining farms located?",
-    answer: "Our mining farms are in Guinea, Qatar, Kazakhstan, and Ethiopia, with real-world infrastructure under deployment.",
+    question: "Where are the GPU data centers located?",
+    answer: "Our GPU-based data centers are being deployed across multiple international locations, including Guinea, Qatar, Kazakhstan, and Ethiopia.",
   },
   {
     category: "security",

@@ -1,6 +1,6 @@
 import PageHeader from "@/components/base/PageHeader";
 import NewsLetter from "@/components/partials/NewsLetter";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const ApplyProject = () => {
   const [form, setForm] = useState({
@@ -9,6 +9,80 @@ const ApplyProject = () => {
     wallet: "",
     amount: "",
   });
+
+  const [glowIntensity, setGlowIntensity] = useState(20);
+  const [particles, setParticles] = useState([]);
+  const cardRef = useRef(null);
+
+  // === Particle Animation ===
+  useEffect(() => {
+    const p = [];
+    for (let i = 0; i < 30; i++) {
+      p.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 5 + 2,
+        dx: (Math.random() - 0.5) * 0.5,
+        dy: (Math.random() - 0.5) * 0.5,
+      });
+    }
+    setParticles(p);
+  }, []);
+
+  useEffect(() => {
+    let animationFrame;
+    const animate = () => {
+      setParticles((prev) =>
+        prev.map((particle) => {
+          let { x, y, r, dx, dy } = particle;
+          x += dx;
+          y += dy;
+          if (x < 0 || x > window.innerWidth) dx *= -1;
+          if (y < 0 || y > window.innerHeight) dy *= -1;
+          return { x, y, r, dx, dy };
+        })
+      );
+      animationFrame = requestAnimationFrame(animate);
+    };
+    animate();
+    return () => cancelAnimationFrame(animationFrame);
+  }, []);
+
+  // === Breathing Glow Effect ===
+  useEffect(() => {
+    let increasing = true;
+    let frame;
+    const pulse = () => {
+      setGlowIntensity((prev) => {
+        if (prev > 60) increasing = false;
+        if (prev < 20) increasing = true;
+        return increasing ? prev + 1 : prev - 1;
+      });
+      frame = requestAnimationFrame(pulse);
+    };
+    pulse();
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  // === Tilt Animation on Mouse Move ===
+  const handleMouseMove = (e) => {
+    if (cardRef.current) {
+      const rect = cardRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * 5;
+      const rotateY = ((x - centerX) / centerX) * -5;
+      cardRef.current.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (cardRef.current) {
+      cardRef.current.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
+    }
+  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -41,157 +115,184 @@ const ApplyProject = () => {
     <>
       <PageHeader title="Buy INF Token" text="Secure your mining-backed tokens" />
 
-      {/* ================== Uitleg Blok =================== */}
-      <section className="padding-top padding-bottom">
-        <div className="container text-center mb-5">
-          <div
-            style={{
-              background: "rgba(255, 102, 196, 0.12)",
-              border: "1px solid rgba(255, 102, 196, 0.4)",
-              borderRadius: "20px",
-              padding: "40px",
-              boxShadow: "0 0 60px rgba(255, 102, 196, 0.35)",
-              color: "white",
-              maxWidth: "800px",
-              margin: "0 auto",
-              position: "relative",
-            }}
-          >
-            <h2 className="text-white mb-3">Monthly Profit Sharing</h2>
-            <p>
-              As a holder of the INF utility token, you are entitled to a monthly profit share
-              derived from Bitcoin mining operations within our ecosystem.
-            </p>
-            <p className="mt-3">
-              To ensure long-term commitment and fairness, all rewards are calculated monthly
-              but paid out every 6 months, based on your average INF balance during that period.
-              A minimum of 1000 INF must be held to qualify.
-            </p>
-            <p className="mt-3">
-              Our transparent system ensures every token holder can participate in the real-world
-              economy of digital mining, powered by INF.
-            </p>
-            <div
-              style={{
-                position: "absolute",
-                bottom: "-30px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "140px",
-                height: "60px",
-                background: "rgba(255, 102, 196, 0.4)",
-                filter: "blur(45px)",
-                zIndex: 0,
-              }}
-            />
-          </div>
+      {/* Particle Background */}
+      <canvas
+        id="particle-canvas"
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: -1,
+        }}
+      ></canvas>
+      {particles.map((p, index) => (
+        <div
+          key={index}
+          style={{
+            position: "fixed",
+            top: p.y,
+            left: p.x,
+            width: p.r * 2,
+            height: p.r * 2,
+            borderRadius: "50%",
+            background: "rgba(255, 102, 196, 0.4)",
+            filter: "blur(4px)",
+            pointerEvents: "none",
+            zIndex: -1,
+          }}
+        />
+      ))}
+
+      {/* Content */}
+      <section
+        className="padding-top padding-bottom"
+        style={{ perspective: "1000px" }}
+      >
+        <div
+          className="container text-center mb-5"
+          ref={cardRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            background: "rgba(255, 102, 196, 0.15)",
+            border: "1px solid rgba(255, 102, 196, 0.35)",
+            borderRadius: "20px",
+            padding: "40px",
+            boxShadow: `0 0 ${glowIntensity}px rgba(255, 102, 196, 0.6)`,
+            color: "white",
+            maxWidth: "800px",
+            margin: "0 auto",
+            position: "relative",
+            transition: "transform 0.2s ease-out",
+          }}
+        >
+          <h2 className="text-white mb-3">🚀 Buy INF Token</h2>
+          <p>
+            The main method to purchase INF is through <b>op_wallet</b>.  
+            Currently, op_wallet is in <b>test phase</b>.  
+            We also support temporary purchases via <b>BOB (Layer 2)</b> until
+            the full release.
+          </p>
         </div>
 
-        {/* ================== How to Buy =================== */}
-        <div className="container text-center mb-5">
-          <h2 className="text-white mb-3">How to Buy INF</h2>
+        <div className="container text-center mt-5">
+          <h3 className="text-white mb-3">🛠 How to Buy INF</h3>
           <ol className="list-decimal list-inside text-left mx-auto max-w-xl text-white space-y-2">
-            <li>Create a Bitcoin wallet (Xverse, UniSat, or other BRC-20 compatible wallets).</li>
-            <li>Fill out the form below with your wallet address and desired amount.</li>
-            <li>Our team will reach out with payment instructions for the private sale.</li>
+            <li>Connect via <b>op_wallet</b> (test) or <b>BOB L2</b>.</li>
+            <li>Fill in your details below.</li>
+            <li>Receive instructions for payment verification.</li>
           </ol>
         </div>
 
-        {/* ================== Form Blok =================== */}
-        <div className="container">
-          <div
-            style={{
-              background: "rgba(255, 102, 196, 0.12)",
-              border: "1px solid rgba(255, 102, 196, 0.4)",
-              borderRadius: "20px",
-              padding: "40px",
-              boxShadow: "0 0 60px rgba(255, 102, 196, 0.35)",
-              maxWidth: "700px",
-              margin: "0 auto",
-              color: "white",
-              position: "relative",
-            }}
-          >
-            <h3 className="text-center text-white mb-4">Request Purchase</h3>
-
-            <form onSubmit={handleSubmit}>
-              <div className="form-floating mb-3">
-                <input
-                  type="text"
-                  className="form-control bg-transparent text-white border border-pink-400"
-                  id="buy-name"
-                  name="name"
-                  placeholder="Full Name"
-                  value={form.name}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="buy-name" className="text-white">Full Name</label>
-              </div>
-
-              <div className="form-floating mb-3">
-                <input
-                  type="email"
-                  className="form-control bg-transparent text-white border border-pink-400"
-                  id="buy-email"
-                  name="email"
-                  placeholder="Email Address"
-                  value={form.email}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="buy-email" className="text-white">Email</label>
-              </div>
-
-              <div className="form-floating mb-3">
-                <input
-                  type="text"
-                  className="form-control bg-transparent text-white border border-pink-400"
-                  id="buy-wallet"
-                  name="wallet"
-                  placeholder="Bitcoin Wallet Address"
-                  value={form.wallet}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="buy-wallet" className="text-white">Bitcoin Wallet Address</label>
-              </div>
-
-              <div className="form-floating mb-4">
-                <input
-                  type="number"
-                  className="form-control bg-transparent text-white border border-pink-400"
-                  id="buy-amount"
-                  name="amount"
-                  placeholder="Amount in INF"
-                  value={form.amount}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="buy-amount" className="text-white">Amount (INF)</label>
-              </div>
-
-              <div className="text-center">
-                <button className="default-btn bg-pink-500 hover:bg-pink-600 text-white px-5 py-3 rounded">
-                  Submit Purchase Request
-                </button>
-              </div>
-            </form>
-
-            <div
+        {/* Form */}
+        <div
+          className="container mt-5"
+          style={{
+            background: "rgba(255, 102, 196, 0.15)",
+            border: "1px solid rgba(255, 102, 196, 0.35)",
+            borderRadius: "20px",
+            padding: "35px",
+            boxShadow: `0 0 ${glowIntensity}px rgba(255, 102, 196, 0.6)`,
+            maxWidth: "700px",
+            margin: "0 auto",
+            color: "white",
+            position: "relative",
+          }}
+        >
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={form.name}
+              onChange={handleChange}
+              required
               style={{
-                position: "absolute",
-                bottom: "-30px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "160px",
-                height: "60px",
-                background: "rgba(255, 102, 196, 0.4)",
-                filter: "blur(45px)",
-                zIndex: 0,
+                width: "100%",
+                marginBottom: "15px",
+                padding: "10px",
+                background: "transparent",
+                color: "#fff",
+                border: "1px solid #ff66c4",
+                borderRadius: "8px",
               }}
             />
-          </div>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              value={form.email}
+              onChange={handleChange}
+              required
+              style={{
+                width: "100%",
+                marginBottom: "15px",
+                padding: "10px",
+                background: "transparent",
+                color: "#fff",
+                border: "1px solid #ff66c4",
+                borderRadius: "8px",
+              }}
+            />
+            <input
+              type="text"
+              name="wallet"
+              placeholder="Bitcoin Wallet Address"
+              value={form.wallet}
+              onChange={handleChange}
+              style={{
+                width: "100%",
+                marginBottom: "15px",
+                padding: "10px",
+                background: "transparent",
+                color: "#fff",
+                border: "1px solid #ff66c4",
+                borderRadius: "8px",
+              }}
+            />
+            <input
+              type="number"
+              name="amount"
+              placeholder="Amount in INF"
+              value={form.amount}
+              onChange={handleChange}
+              required
+              style={{
+                width: "100%",
+                marginBottom: "15px",
+                padding: "10px",
+                background: "transparent",
+                color: "#fff",
+                border: "1px solid #ff66c4",
+                borderRadius: "8px",
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                width: "100%",
+                padding: "12px",
+                background:
+                  "linear-gradient(90deg, #ff66c4, #ff99d9, #ff66c4)",
+                border: "none",
+                color: "white",
+                borderRadius: "8px",
+                cursor: "pointer",
+                fontWeight: "bold",
+                fontSize: "16px",
+                transition: "0.2s",
+                animation: "colorChange 3s infinite alternate",
+              }}
+              onMouseEnter={(e) =>
+                (e.target.style.transform = "scale(1.05)")
+              }
+              onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+            >
+               Submit Purchase Request
+            </button>
+          </form>
         </div>
       </section>
 

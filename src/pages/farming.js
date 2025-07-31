@@ -1,80 +1,135 @@
+"use client";
+import { motion } from "framer-motion";
 import PageHeader from "@/components/base/PageHeader";
 
-const farms = [
+const deployments = [
   {
-    name: "Guinea Farm (Conakry)",
-    status: 30,
-    statusText: "Energy cable partner secured • Location scouted • Awaiting legal clearance",
+    name: "Hetzner Cloud Integration",
+    status: 65,
+    statusText: "Dedicated high-performance servers secured • Global infrastructure ready • Preparing INF compute node deployment",
   },
   {
-    name: "Qatar Farm",
+    name: "Decentralized Compute Marketplace",
     status: 45,
-    statusText: "Mining-friendly zone confirmed • Equipment logistics underway • Energy plan drafted",
+    statusText: "Marketplace concept finalized • Peer-to-peer compute exchange framework under development • Onboarding early providers",
   },
   {
-    name: "Kazakhstan Farm",
-    status: 60,
-    statusText: "Partnership with active mining farm • Planning infrastructure expansion",
+    name: "GPU-Accelerated Nodes",
+    status: 35,
+    statusText: "Negotiations with high-capacity GPU providers • Node specifications defined • Pilot testing environment in progress",
   },
   {
-    name: "Ethiopia Pilot",
+    name: "Future Global Expansion",
     status: 25,
-    statusText: "Discussions with grid operators started • Land contacts established • On hold until pre-sale closes",
+    statusText: "Roadmap for scaling across multiple regions • Partnerships under discussion • Will launch additional compute zones post-presale",
   }
 ];
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.9 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: "easeOut" } },
+  hover: {
+    scale: 1.06,
+    boxShadow: "0 0 40px rgba(255, 102, 196, 0.6)",
+    transition: { duration: 0.3 },
+  },
+};
+
+const progressVariants = {
+  hidden: { width: "0%" },
+  visible: (width) => ({
+    width: `${width}%`,
+    transition: { duration: 1.5, ease: "easeInOut" },
+  }),
+};
 
 const Farming = () => {
   return (
     <>
-      <PageHeader title="Farming" text="INF Mining Locations" />
-      <section className="padding-top padding-bottom">
+      <PageHeader title="INF Compute Network" text="Hetzner & Decentralized Marketplace Nodes" />
+
+      <motion.section
+        className="padding-top padding-bottom"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
         <div className="container">
-          <div className="text-center mb-5">
-            <h2 className="text-white">Mining Deployment Status</h2>
+          <motion.div
+            className="text-center mb-5"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+          >
+            <h2 className="text-white">Decentralized Compute Deployment Status</h2>
             <p className="text-white mt-3">
-              Below you’ll find our planned mining farms with real-world preparation progress. Final setup begins after the Private Pre-Sale round.
+              We are building a hybrid infrastructure combining <strong>Hetzner’s reliable servers</strong> with a fully decentralized compute marketplace. 
+              This allows anyone to <strong>rent or provide compute power</strong>, creating an open, transparent, and competitive environment for Web3 applications.
             </p>
-          </div>
+          </motion.div>
 
           <div className="row g-5">
-            {farms.map((farm, index) => (
-              <div key={index} className="col-md-6">
-                <div
+            {deployments.map((item, index) => (
+              <motion.div
+                key={index}
+                className="col-md-6"
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover="hover"
+                transition={{ delay: index * 0.2 }}
+              >
+                <motion.div
                   style={{
-                    background: "rgba(255, 102, 196, 0.05)",
-                    border: "1px solid rgba(255, 102, 196, 0.15)",
+                    background: "rgba(0, 0, 0, 0.65)",
+                    border: "1px solid rgba(255, 102, 196, 0.2)",
                     borderRadius: "12px",
-                    padding: "25px"
+                    padding: "25px",
+                    backdropFilter: "blur(5px)",
                   }}
+                  whileHover={{ y: -8 }}
                 >
-                  <h4 className="text-white mb-3">{farm.name}</h4>
-                  <p className="text-white mb-3">{farm.statusText}</p>
-                  <div className="progress" style={{ height: "18px", backgroundColor: "#1f1f2a" }}>
-                    <div
+                  <h4 className="text-white mb-3">{item.name}</h4>
+                  <p className="text-white mb-3">{item.statusText}</p>
+                  <div className="progress" style={{ height: "18px", backgroundColor: "#1f1f2a", overflow: "hidden" }}>
+                    <motion.div
                       className="progress-bar"
                       role="progressbar"
+                      custom={item.status}
+                      variants={progressVariants}
+                      initial="hidden"
+                      animate="visible"
                       style={{
-                        width: `${farm.status}%`,
                         background: "linear-gradient(90deg, #ff66c4, #ff9ce3)",
                         borderRadius: "8px",
-                        transition: "width 1.2s ease"
+                        display: "flex",
+                        alignItems: "center",
+                        paddingLeft: "8px",
+                        fontWeight: "bold",
+                        color: "#fff",
                       }}
                     >
-                      <span className="ms-2 text-white fw-bold">{farm.status}%</span>
-                    </div>
+                      {item.status}%
+                    </motion.div>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             ))}
           </div>
 
-          <div className="text-center mt-5">
+          <motion.div
+            className="text-center mt-5"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          >
             <p className="text-white">
-              🛠 Final construction & activation of mining rigs will begin <strong>after Private Pre-Sale is completed</strong>.
+              🚀 The INF Marketplace will soon allow users to <strong>deploy apps, AI models, and blockchain services</strong> 
+              on a global, decentralized compute network – combining Hetzner’s power with a <strong>peer-to-peer open market for compute resources</strong>.
             </p>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </>
   );
 };
